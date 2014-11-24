@@ -1,4 +1,10 @@
 ---
+- code: AA
+  type: us military mail code
+- code: AE
+  type: us military mail code
+- code: AP
+  type: us military mail code
 - code: AK
   type: state
 - code: AL
