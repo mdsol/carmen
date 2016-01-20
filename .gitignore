@@ -6,3 +6,5 @@ tmp
 .bundle/*
 Gemfile.lock
 .rvmrc
+
+.idea/*
