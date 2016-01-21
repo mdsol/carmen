@@ -12,6 +12,10 @@ describe Carmen::Region do
     it 'has a reasonable inspect value' do
       @airstrip_one.inspect.must_equal '<#Carmen::Region name="Airstrip One" type="province">'
     end
+    
+    it 'has a reasonable explicit string conversion' do
+      "#{@airstrip_one}".must_equal 'Airstrip One'
+    end
 
     it "has the correct subregion path" do
       @airstrip_one.subregion_data_path.must_equal "world/oc/ao.yml"
@@ -26,6 +30,16 @@ describe Carmen::Region do
     end
 
     describe "subregions" do
+      it "is frozen" do
+        subregions = Carmen::Country.coded('OC').subregions
+
+        assert_raises RuntimeError do
+          subregions.clear
+        end
+      end
+    end
+
+    describe "subregion" do
       before do
         @london = @airstrip_one.subregions.first
       end
@@ -86,6 +100,14 @@ describe Carmen::Region do
     it 'can find subregions by name using a case-insensitive regex' do
       eastasia = @world.subregions.named(/eastasia/i)
       eastasia.name.must_equal('Eastasia')
+    end
+
+    it 'handles querying for a nil code safely' do
+      @world.subregions.coded(nil).must_equal nil
+    end
+
+    it 'handles querying for a nil name safely' do
+      @world.subregions.named(nil).must_equal nil
     end
 
     describe 'unicode character handling' do
