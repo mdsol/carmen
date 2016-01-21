@@ -731,8 +731,8 @@ en:
       official_name: !!null 
     ps:
       common_name: !!null 
-      name: Palestinian Territory, Occupied
-      official_name: Occupied Palestinian Territory
+      name: Palestine, State of
+      official_name: State of Palestine
     pt:
       common_name: !!null 
       name: Portugal
@@ -911,7 +911,7 @@ en:
       official_name: !!null 
     tw:
       common_name: Taiwan
-      name: Taiwan, Province of China
+      name: Taiwan
       official_name: Taiwan, Province of China
     tz:
       common_name: !!null 
@@ -963,7 +963,7 @@ en:
       official_name: Virgin Islands of the United States
     vn:
       common_name: !!null 
-      name: Viet Nam
+      name: Vietnam
       official_name: Socialist Republic of Viet Nam
     vu:
       common_name: !!null 
