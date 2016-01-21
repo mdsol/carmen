@@ -1,20 +1,18 @@
-# Carmen- A repository of geographic regions for Ruby
+# Carmen
+
+> A repository of geographic regions for Ruby
 
 [![Build Status](https://secure.travis-ci.org/jim/carmen.png?branch=master)](http://travis-ci.org/jim/carmen)
 
-Carmen 1.0.0 is now out, after more than a year in beta.  This release is a rewrite of the library, separating out the geographic components from the Rails-specific view helpers. If you are using Carmen with Rails, you should check out the [carmen-rails](http://github.com/jim/carmen-rails) library.
+Carmen features the following:
 
-The [0.2.x branch](https://github.com/jim/carmen/tree/0.2.x) contains the previous
-version of Carmen should you need it for some reason.
-
-**Carmen now requires Ruby 1.9.** The [ruby-18 branch](https://github.com/jim/carmen/tree/ruby-18) contains the
-last stable version of Carmen that will run on Ruby 1.8.x.
-
-Carmen 1.0 features the following:
-
-* A new, cleaner API
-* More complete data via the iso-codes Debian package (idea borrowed from [here](https://github.com/pluginaweek/has_addresses))
+* Clean API
+* Complete countries & regions data from the iso-codes Debian package
 * A sane approach to internationalization
+
+## Ruby on Rails
+
+If you are using Carmen with Rails, you should check out the [carmen-rails](http://github.com/jim/carmen-rails) library.
 
 # How to Use Carmen
 
@@ -55,6 +53,11 @@ similarly to a `Country` to find, for instance, a specific state:
     illinois = us.subregions.coded('IL')
     => <#Carmen::Region "Illinois">
 
+You can also find all subregions with a specific type:
+
+    states = us.subregions.typed('state')
+    => [<#Carmen::Region name="Alaska" type="state">, <#Carmen::Region name="Alabama" type="state">, ...]
+
 Subregions support a smaller set of attributes than countries:
 
     illinois.name
@@ -94,7 +97,7 @@ files in each of these paths should mirror those in the `iso_data` path Carmen s
 To add a new country to the system, you would create a directory (let's use `my_data` as an example),
 and create a `world.yml` file inside it. Then add the path to Carman:
 
-    Carmen.append_data_path File.expand_path('../my_data', __FILE___)
+    Carmen.append_data_path File.expand_path('../my_data', __FILE__)
 
 Elements within the data files are identified using their `code` values (or, in the case of countries, `alpha_2_code`). Create a new block for the country you wish to add inside `my_data/world.yml`:
 
@@ -139,7 +142,7 @@ I18n backend:
     Carmen.i18n_backend = YourI18nBackend.new
 
 The object used as a backend must respond to `t` with a single argument (the
-key being looked up). This key will look something like `en.world.us.il.name`.
+key being looked up). This key will look something like `world.us.il.name`.
 
 ## Setting the locale
 
@@ -173,3 +176,14 @@ set of locale paths used by the backend:
 
 If you are using your own backend, then follow the steps necessary to have it
 load your additional files instead.
+
+
+## Contributing to Carmen
+
+Please read [Contributing Data](https://github.com/jim/carmen/wiki/Contributing-Data) before making any changes to the project's data. It will save you (and me) a bunch of time!
+
+## Extensions
+
+[Jacob Morris](https://github.com/jacobsimeon) has created [a plugin for Carmen that adds support for demonyms](https://github.com/jacobsimeon/carmen-demonyms).
+
+[Cyle Hunter](https://github.com/nozpheratu) has created [a plugin that adds ISO 4217 currency names to Carmen::Country](https://github.com/nozpheratu/carmen-iso-4217).
