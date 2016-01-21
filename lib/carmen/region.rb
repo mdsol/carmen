@@ -21,7 +21,7 @@ module Carmen
     end
 
     def subregions
-      @subregions ||= load_subregions
+      @subregions ||= load_subregions.freeze
     end
 
     def subregions?
@@ -49,6 +49,10 @@ module Carmen
     def inspect
       "<##{self.class} name=\"#{name}\" type=\"#{type}\">"
     end
+    
+    def to_s
+      name
+    end
 
     # Clears the subregion cache
     def reset!
@@ -69,7 +73,7 @@ module Carmen
       if Carmen.data_paths.any? {|path| (path + subregion_data_path).exist? }
         load_subregions_from_path(subregion_data_path, self)
       else
-        []
+        RegionCollection.new([])
       end
     end
 
@@ -86,7 +90,11 @@ module Carmen
     # and overlaying matching data (if it exists) from the overlay_path.
     def load_data_at_path(path)
       data_sets = Carmen.data_paths.map do |data_path|
-        YAML.load_file(data_path + path)
+        if File.exists?(data_path + path)
+          YAML.load_file(data_path + path)
+        else
+          []
+        end
       end
       flatten_data(data_sets)
     end
@@ -97,15 +105,10 @@ module Carmen
     #
     # Returns a single merged array of hashes.
     def flatten_data(arrays)
-
       keys = %w(code alpha_2_code)
-      flattened = Utils.merge_arrays_by_keys(arrays, keys)
-
-      flattened.each do |hash|
-        flattened.delete(hash) if hash['_enabled'] == false
+      Utils.merge_arrays_by_keys(arrays, keys).reject do |hash|
+        hash['_enabled'] == false
       end
-
-      flattened
     end
   end
 end
